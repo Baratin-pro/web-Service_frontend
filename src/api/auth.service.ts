@@ -1,8 +1,8 @@
-let accessToken = undefined;
+let accessToken: string | undefined;
 
 const ACCESS_TOKEN_KEY = 'ACCESS_TOKEN';
 
-export const setToken = (token) => {
+export const setToken = (token: string) => {
   accessToken = token;
   window.localStorage.setItem(ACCESS_TOKEN_KEY, token);
 };
