@@ -41,10 +41,10 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'MenuElements',
   props: {
-    classElement: {
+    menuClass: {
       type: String,
     },
-    colorElement: {
+    menuColor: {
       type: String,
     },
   },
