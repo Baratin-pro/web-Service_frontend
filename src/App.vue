@@ -1,56 +1,61 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-app-bar app color="primary" dark style="height: 80px;" class="py-1">
+      <v-col lg="7" sm="4" class="d-flex align-center">
+        <div class="pt-2">
+          <v-img
+            alt="F-M-W Logo"
+            class="shrink"
+            src="./assets/logo.png"
+            transition="scale-transition"
+            contain
+            width="70px"
+            height="70px"
+          />
+        </div>
+        <div class="hidden-sm-and-down">
+          <Navbar></Navbar>
+        </div>
+      </v-col>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+      <v-col
+        lg="3"
+        sm="4"
+        class="hidden-md-and-up shrink font-weight-black title text-center"
+      >
+        F-M-W
+      </v-col>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <v-col lg="2" sm="4"></v-col>
+      <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
+      </v-app-bar-nav-icon>
     </v-app-bar>
 
-    <v-main>
-      <router-view/>
+    <template v-if="drawer">
+      <Navbar :drawer="drawer" @stateChanged="drawer = $event"></Navbar>
+    </template>
+
+    <v-main class="mt-5">
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import Navbar from './components/layout/Navbar.vue';
 
 export default Vue.extend({
   name: 'App',
-
-  data: () => ({
-    //
-  }),
+  components: {
+    Navbar,
+  },
+  data() {
+    return {
+      drawer: false,
+    };
+  },
 });
 </script>

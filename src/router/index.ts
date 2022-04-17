@@ -6,10 +6,34 @@ Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/home',
+    path: '/page-d\'accueil',
     name: 'Home',
     alias: '/',
-    component: () => import(/* webpackChunkName: "home" */ '../views/HomeView.vue'),
+    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
+    meta: {
+      requiresAuth: false,
+    }
+  },
+  {
+    path: '/auteurs',
+    name: 'Authors',
+    component: () => import(/* webpackChunkName: "authors" */ '../views/Authors.vue'),
+    meta: {
+      requiresAuth: false,
+    }
+  },
+  {
+    path: '/films',
+    name: 'Movies',
+    component: () => import(/* webpackChunkName: "movies" */ '../views/Movies.vue'),
+    meta: {
+      requiresAuth: false,
+    }
+  },
+  {
+    path: '/emissions-tele',
+    name: 'Tvshows',
+    component: () => import(/* webpackChunkName: "tvshows" */ '../views/Tvshows.vue'),
     meta: {
       requiresAuth: false,
     }
