@@ -1,8 +1,8 @@
 <template>
   <v-card>
-    <v-tabs v-model="tab">
-      <v-tab v-for="(genre, index) in genreList" :key="index">{{ genre.name }}</v-tab>
-    </v-tabs>
+    <v-container v-for="(movie, index) in movieListByGenre" :key="index">
+      {{ movie.id }} {{ movie.title }}
+    </v-container>
   </v-card>
 </template>
 
@@ -12,16 +12,15 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'MovieGenreList',
   props: {
-    genreList: {
+    movieListByGenre: {
       type: Array,
     },
   },
 
   data() {
-    return {
-      tab: 0,
-    };
+    return {};
   },
+  computed: {},
   methods: {},
 });
 </script>
