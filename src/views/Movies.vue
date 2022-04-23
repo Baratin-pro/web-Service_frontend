@@ -4,16 +4,25 @@
       {{ error }}
     </v-alert>
     <v-card>
-      <v-tabs v-model="tab">
-        <v-tab v-for="(genre, index) in movieGenre" :key="index">
-          <TitleGenreList :genre="genre" @genreId="loadMovieByGenre"></TitleGenreList>
-        </v-tab>
-      </v-tabs>
-      <v-tabs-items v-model="tab">
-        <v-tab-item v-for="(genre, index) in movieGenre" :key="index">
-          <MovieGenreList :movieListByGenre="moviesByGenre"></MovieGenreList>
-        </v-tab-item>
-      </v-tabs-items>
+      <v-row>
+        <v-card-title class="text-h2 font-weight-bold">
+          Films
+        </v-card-title>
+        <v-col cols="12" md="2" class="d-flex mt-md-4">
+          <v-select
+            v-model="selectedGenres"
+            :items="genreList"
+            label="Tous les films"
+            solo
+            @input="loadMovieByGenre(selectedGenres)"
+          >
+          </v-select>
+        </v-col>
+      </v-row>
+      <MovieGenreList
+        :moviesByGenre="moviesByGenre"
+        :movieGenre="movieGenre"
+      ></MovieGenreList>
     </v-card>
   </div>
 </template>
@@ -21,7 +30,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import MovieGenreList from '../components/movie/MovieGenreList.vue';
-import TitleGenreList from '../components/movie/TitleGenreList.vue';
 import { MovieByGenre } from '../models/movieByGenre.model';
 import { MovieGenre } from './../models/movieGenre.model';
 
@@ -29,20 +37,29 @@ export default Vue.extend({
   name: 'Movies',
   components: {
     MovieGenreList,
-    TitleGenreList,
   },
   data() {
     return {
       error: null as string | null,
       movieGenre: [] as MovieGenre[],
       moviesByGenre: [] as MovieByGenre[],
-      tab: 0,
-      genreId: null as null | number,
+      selectedGenres: [],
     };
   },
   mounted() {
     this.loadMovieGenreList();
-    this.loadMovieByGenre();
+  },
+  computed: {
+    genreList(): { text: string; value: number | undefined }[] {
+      const genres: [{ name: string; id: number | undefined }] = [
+        { name: 'Tous les films', id: undefined },
+      ];
+      genres.push(...this.movieGenre);
+      return genres.map((genre) => ({
+        text: genre.name,
+        value: genre.id,
+      }));
+    },
   },
   methods: {
     async loadMovieGenreList() {
@@ -53,7 +70,9 @@ export default Vue.extend({
       }
     },
     async loadMovieByGenre(genreId = 28) {
-      if (genreId) {
+      if (isNaN(genreId)) {
+        this.moviesByGenre = [];
+      } else {
         try {
           this.moviesByGenre = await this.$api.movie.getByGenreId(genreId);
         } catch (e) {
