@@ -4,5 +4,23 @@
     "AUTH_WRONG_ROLE": "Accès non autorisé",
     "unkown": "Une erreur inconnue est survenue",
     "USER_NOT_FOUND": "Adresse e-mail inconnue"
+  },
+  "tvGenre": {
+    "Action & Adventure": "Action & aventure",
+    "Animation": "Animation",
+    "Comédie": "Comédie",
+    "Crime": "Crime",
+    "Documentaire": "Documentaire",
+    "Drame": "Drame",
+    "Familial": "Familial",
+    "Kids": "Enfants",
+    "Mystère": "Mystère",
+    "News": "Nouveauté",
+    "Reality": "Réalité",
+    "Science-Fiction & Fantastique": "Science-Fiction & Fantastique",
+    "Soap": "Feuilleton sentimental",
+    "Talk": "Divertissement",
+    "War & Politics": "Guerre & Politique",
+    "Western": "Western"
   }
 }
