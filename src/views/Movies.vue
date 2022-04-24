@@ -10,9 +10,10 @@
         </v-card-title>
         <v-col cols="12" md="2" class="d-flex mt-md-4">
           <v-select
+            v-if="genreList[0]"
             v-model="selectedGenres"
             :items="genreList"
-            label="Tous les films"
+            :label="genreList[0].text"
             solo
             @input="loadMovieByGenre(selectedGenres)"
           >
@@ -46,16 +47,13 @@ export default Vue.extend({
       selectedGenres: [],
     };
   },
-  mounted() {
-    this.loadMovieGenreList();
+  async mounted() {
+    await this.loadMovieGenreList();
+    this.loadMovieByGenre(this.movieGenre[0].id);
   },
   computed: {
     genreList(): { text: string; value: number | undefined }[] {
-      const genres: [{ name: string; id: number | undefined }] = [
-        { name: 'Tous les films', id: undefined },
-      ];
-      genres.push(...this.movieGenre);
-      return genres.map((genre) => ({
+      return (this.movieGenre as MovieGenre[]).map((genre) => ({
         text: genre.name,
         value: genre.id,
       }));
@@ -69,15 +67,11 @@ export default Vue.extend({
         this.handleError(e);
       }
     },
-    async loadMovieByGenre(genreId = 28) {
-      if (isNaN(genreId)) {
-        this.moviesByGenre = [];
-      } else {
-        try {
-          this.moviesByGenre = await this.$api.movie.getByGenreId(genreId);
-        } catch (e) {
-          this.handleError(e);
-        }
+    async loadMovieByGenre(genreId: number) {
+      try {
+        this.moviesByGenre = await this.$api.movie.getByGenreId(genreId);
+      } catch (e) {
+        this.handleError(e);
       }
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
