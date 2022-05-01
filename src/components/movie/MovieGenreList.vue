@@ -16,13 +16,17 @@
         <v-card-subtitle>
           <v-row>
             <v-col class="pt-0"> {{ dateToLocale(movie.release_date) }} </v-col>
-            <div
-              class="px-1"
-              v-for="(genre, index) in linkedGenre(movie.genre_ids)"
-              :key="index"
-            >
-              {{ genre.name }}
-            </div>
+            <v-col>
+              <v-row class="d-flex flex-row-reverse text-body-2">
+                <div
+                  class="px-1"
+                  v-for="(genre, index) in linkedGenre(movie.genre_ids)"
+                  :key="index"
+                >
+                  {{ genre.name }}
+                </div>
+              </v-row>
+            </v-col>
           </v-row>
         </v-card-subtitle>
         <v-card-text> {{ showText(movie.overview) }} </v-card-text>
