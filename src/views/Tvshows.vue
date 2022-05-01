@@ -15,30 +15,38 @@
             :items="genreList"
             :label="genreList[0].text"
             solo
-            @input="loadTvGenreList(selectedGenres)"
+            @input="loadTvByGenre(selectedGenres)"
           >
           </v-select>
         </v-col>
       </v-row>
+      <TvGenreList :tvByGenre="tvByGenre" :tvGenre="tvGenre"></TvGenreList>
     </v-card>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import TvGenreList from '../components/tv/tvGenreList.vue';
 import { TvGenre } from './../models/tvGenre.model';
+import { TvByGenre } from '../models/tvByGenre.model';
 
 export default Vue.extend({
   name: 'Tvshows',
+  components: {
+    TvGenreList,
+  },
   data() {
     return {
       error: null as string | null,
       tvGenre: [] as TvGenre[],
+      tvByGenre: [] as TvByGenre[],
       selectedGenres: [],
     };
   },
   async mounted() {
     await this.loadTvGenreList();
+    this.loadTvByGenre(this.tvGenre[0].id);
   },
   computed: {
     genreList(): { text: string; value: number | undefined }[] {
@@ -52,6 +60,13 @@ export default Vue.extend({
     async loadTvGenreList() {
       try {
         this.tvGenre = await this.$api.tv.genreList();
+      } catch (e) {
+        this.handleError(e);
+      }
+    },
+    async loadTvByGenre(genreId: number) {
+      try {
+        this.tvByGenre = await this.$api.tv.getByGenreId(genreId);
       } catch (e) {
         this.handleError(e);
       }
