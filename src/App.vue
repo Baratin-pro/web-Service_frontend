@@ -14,7 +14,7 @@
           />
         </div>
         <div class="hidden-sm-and-down">
-          <Navbar></Navbar>
+          <Navbar :logout="logout"></Navbar>
         </div>
       </v-col>
 
@@ -34,7 +34,11 @@
     </v-app-bar>
 
     <template v-if="drawer">
-      <Navbar :drawer="drawer" @stateChanged="drawer = $event"></Navbar>
+      <Navbar
+        :drawer="drawer"
+        @stateChanged="drawer = $event"
+        :logout="logout"
+      ></Navbar>
     </template>
 
     <v-main class="mt-5">
@@ -46,6 +50,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Navbar from './components/layout/Navbar.vue';
+import { clearToken } from './api/auth.service';
 import { mapGetters } from 'vuex';
 
 export default Vue.extend({
@@ -60,6 +65,13 @@ export default Vue.extend({
     return {
       drawer: false,
     };
+  },
+  methods: {
+    logout() {
+      this.$store.commit('setUser', undefined);
+      clearToken();
+      this.$router.replace({ name: 'Authentication' });
+    },
   },
 });
 </script>
