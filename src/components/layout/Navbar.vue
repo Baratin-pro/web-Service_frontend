@@ -6,7 +6,11 @@
       </v-navigation-drawer>
     </template>
     <template v-else>
-      <MenuElements menuClass="d-flex ml-2" menuColor="primary"></MenuElements>
+      <MenuElements
+        menuClass="d-flex ml-2"
+        menuColor="primary"
+        :user="user"
+      ></MenuElements>
     </template>
   </div>
 </template>

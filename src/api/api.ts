@@ -1,3 +1,4 @@
+import { UserService } from './user.service';
 import { TvService } from './tv.service';
 import { MovieService } from './movie.service';
 
@@ -5,5 +6,5 @@ import { MovieService } from './movie.service';
 export const api = {
 	movie: new MovieService(),
 	tv: new TvService(),
-
+	user: new UserService(),
 }

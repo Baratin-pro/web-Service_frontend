@@ -1,4 +1,4 @@
-import { isAuthenticated, loadLocalToken } from '@/api/auth.service';
+import { getToken } from '@/api/auth.service';
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router'
 
@@ -11,6 +11,14 @@ const routes: Array<RouteConfig> = [
     alias: '/',
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
     meta: {
+      requiresAuth: true,
+    }
+  },
+  {
+    path: '/connexion',
+    name: 'Authentication',
+    component: () => import(/* webpackChunkName: "authentication" */ '../views/Authentication.vue'),
+    meta: {
       requiresAuth: false,
     }
   },
@@ -19,7 +27,7 @@ const routes: Array<RouteConfig> = [
     name: 'Authors',
     component: () => import(/* webpackChunkName: "authors" */ '../views/Authors.vue'),
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
     }
   },
   {
@@ -27,7 +35,7 @@ const routes: Array<RouteConfig> = [
     name: 'Movies',
     component: () => import(/* webpackChunkName: "movies" */ '../views/Movies.vue'),
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
     }
   },
   {
@@ -35,7 +43,7 @@ const routes: Array<RouteConfig> = [
     name: 'Tvshows',
     component: () => import(/* webpackChunkName: "tvshows" */ '../views/Tvshows.vue'),
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
     }
   },
 ]
@@ -47,13 +55,17 @@ const router = new VueRouter({
 
 // Guards
 router.beforeEach(async (to, from, next) => {
-  if (to.meta?.requiresAuth === true && !isAuthenticated()) {
-    loadLocalToken();
-  }
-  else {
+  if (to.meta?.requiresAuth === true && !getToken()) {
+    next({ name: 'Authentication' });
+  } else if (to.meta?.requiresAuth === true && getToken()) {
     next();
   }
+  else if (to.name === 'Authentication') {
+    next();
+  }
+  else {
+    next({ name: 'Authentication' });
+  }
 });
-
 
 export default router

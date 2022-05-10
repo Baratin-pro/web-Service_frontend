@@ -46,11 +46,15 @@
 <script lang="ts">
 import Vue from 'vue';
 import Navbar from './components/layout/Navbar.vue';
+import { mapGetters } from 'vuex';
 
 export default Vue.extend({
   name: 'App',
   components: {
     Navbar,
+  },
+  computed: {
+    ...mapGetters(['user']),
   },
   data() {
     return {

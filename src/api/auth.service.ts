@@ -18,9 +18,9 @@ export const clearToken = () => {
   window.localStorage.clear();
 };
 
-export const loadLocalToken = () => {
-  const localToken = window.localStorage.getItem(ACCESS_TOKEN_KEY);
-  if (localToken) {
-    setToken(localToken);
-  }
-};
+// export const loadLocalToken = () => {
+//   const localToken = window.localStorage.getItem(ACCESS_TOKEN_KEY);
+//   if (localToken) {
+//     setToken(localToken);
+//   }
+// };

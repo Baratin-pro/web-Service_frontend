@@ -22,5 +22,15 @@
     "Talk": "Divertissement",
     "War & Politics": "Guerre & Politique",
     "Western": "Western"
+  },
+  "rules": {
+    "email": "L'adresse email doit être valide",
+    "hasLowercase": "Ce champ doit posséder au moins une minuscule",
+    "hasNumber": "Ce champ doit posséder au moins un chiffre",
+    "hasUppercase": "Ce champ doit posséder au moins une majuscule",
+    "nameLength": "Le nom ou le prénom doit posséder plus de {length} caractères",
+    "noNumber": "Les nombres ne sont pas autorisés",
+    "passwordLength": "Le mot de passe doit posséder entre 8 et 32 caractères",
+    "required": "Ce champ est requis"
   }
 }
