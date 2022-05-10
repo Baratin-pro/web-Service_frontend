@@ -32,14 +32,6 @@
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <!-- Authentication -->
-    <v-list-item :to="{ name: 'Authentication' }" link>
-      <v-list-item-content>
-        <v-list-item-title class="font-weight-black">
-          Connexion
-        </v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
   </v-list>
 </template>
 

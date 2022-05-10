@@ -1,21 +1,30 @@
 <template>
-  <v-card>
-    <LoginForm @submit="login"></LoginForm>
-  </v-card>
+  <v-container>
+    <v-alert prominent v-if="error" type="error">
+      {{ error }}
+    </v-alert>
+    <v-card max-width="500" class="mx-auto mt-12">
+      <LoginForm @submit="login" v-model="isLogin" v-if="isLogin"></LoginForm>
+      <SignupForm @submit="signup" v-model="isLogin" v-else></SignupForm>
+    </v-card>
+  </v-container>
 </template>
 <script lang="ts">
 import Vue from 'vue';
 import LoginForm, { LoginFormData } from '../components/auth/LoginForm.vue';
+import SignupForm, { SignupFormData } from '../components/auth/SignupForm.vue';
 import { setToken } from '../api/auth.service';
 
 export default Vue.extend({
   name: 'Authentication',
   components: {
     LoginForm,
+    SignupForm,
   },
   data() {
     return {
       error: undefined as string | undefined,
+      isLogin: true,
     };
   },
   methods: {
@@ -27,8 +36,27 @@ export default Vue.extend({
           loginFormData.password
         );
         setToken(auth.token);
-        console.log(auth.token);
         this.$router.push({ name: 'Home' });
+      } catch (e) {
+        this.handleError(e);
+      }
+    },
+    async signup(signupFormData: SignupFormData) {
+      this.error = undefined;
+      try {
+        const signupValid = await this.$api.user.signup(
+          signupFormData.email,
+          signupFormData.password,
+          signupFormData.username
+        );
+        if (signupValid) {
+          const auth = await this.$api.user.login(
+            signupFormData.email,
+            signupFormData.password
+          );
+          setToken(auth.token);
+          this.$router.push({ name: 'Home' });
+        }
       } catch (e) {
         this.handleError(e);
       }

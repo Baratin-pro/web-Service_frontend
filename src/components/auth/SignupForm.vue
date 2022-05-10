@@ -8,12 +8,20 @@
       lazy-validation
     >
       <v-text-field
+        v-model="username"
+        label="Pseudo : "
+        :rules="[formRules.required, formRules.nameLength]"
+        required
+      >
+      </v-text-field>
+      <v-text-field
         v-model="email"
         label="E-mail : "
         :rules="[formRules.required, formRules.email]"
         required
       >
       </v-text-field>
+
       <v-text-field
         v-model="password"
         label="Mot de passe : "
@@ -25,12 +33,12 @@
       >
       </v-text-field>
       <v-btn block elevation="1" x-large type="submit" color="primary">
-        Connexion
+        S'inscrire
       </v-btn>
     </v-form>
     <div class="d-flex flex-row-reverse">
-      <v-btn type="submit" text @click="$emit('input', false)">
-        s'inscrire ?
+      <v-btn type="submit" text @click="$emit('input', true)">
+        Déja un compte ?
       </v-btn>
     </div>
   </v-container>
@@ -41,13 +49,14 @@ import { formRules } from '../../utils/formRules';
 import VueI18n from 'vue-i18n';
 import { VForm } from '../../utils/VForm';
 
-export interface LoginFormData {
+export interface SignupFormData {
   email: string;
   password: string;
+  username: string;
 }
 
 export default Vue.extend({
-  name: 'LoginForm',
+  name: 'SignupForm',
   props: {
     value: {
       type: Boolean,
@@ -59,6 +68,7 @@ export default Vue.extend({
       showPassword: false,
       email: '',
       password: '',
+      username: '',
       formRules,
     };
   },
@@ -79,7 +89,8 @@ export default Vue.extend({
         this.$emit('submit', {
           email: this.email,
           password: this.password,
-        } as LoginFormData);
+          username: this.username,
+        } as SignupFormData);
       }
     },
   },
