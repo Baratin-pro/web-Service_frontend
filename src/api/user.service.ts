@@ -9,4 +9,7 @@ export class UserService {
     public signup(email: string, password: string, username: string) {
         return httpRequestInstance.post(User, 'user/signup', { email, password, username });
     }
+    public account() {
+        return httpRequestInstance.get(User, 'user/account');
+    }
 }

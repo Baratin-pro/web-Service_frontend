@@ -14,7 +14,7 @@
           />
         </div>
         <div class="hidden-sm-and-down">
-          <Navbar :logout="logout"></Navbar>
+          <Navbar :logout="logout" :user="user"></Navbar>
         </div>
       </v-col>
 
@@ -38,6 +38,7 @@
         :drawer="drawer"
         @stateChanged="drawer = $event"
         :logout="logout"
+        :user="user"
       ></Navbar>
     </template>
 
@@ -58,17 +59,18 @@ export default Vue.extend({
   components: {
     Navbar,
   },
-  computed: {
-    ...mapGetters(['user']),
-  },
   data() {
     return {
       drawer: false,
     };
   },
+  computed: {
+    ...mapGetters(['user']),
+  },
   methods: {
     logout() {
       this.$store.commit('setUser', undefined);
+
       clearToken();
       this.$router.replace({ name: 'Authentication' });
     },

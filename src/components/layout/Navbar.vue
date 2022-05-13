@@ -2,7 +2,7 @@
   <div>
     <template v-if="drawer">
       <v-navigation-drawer :value="drawer" @input="$emit('stateChanged', $event)" app>
-        <MenuElements @logout="logout"></MenuElements>
+        <MenuElements @logout="logout" :user="user"></MenuElements>
       </v-navigation-drawer>
     </template>
     <template v-else>
@@ -10,6 +10,7 @@
         menuClass="d-flex ml-2"
         menuColor="primary"
         @logout="logout"
+        :user="user"
       ></MenuElements>
     </template>
   </div>
@@ -35,6 +36,9 @@ export default Vue.extend({
     },
     logout: {
       type: Function,
+    },
+    user: {
+      type: Object,
     },
   },
   methods: {},

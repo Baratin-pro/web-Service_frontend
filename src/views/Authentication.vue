@@ -31,12 +31,8 @@ export default Vue.extend({
     async login(loginFormData: LoginFormData) {
       this.error = undefined;
       try {
-        const auth = await this.$api.user.login(
-          loginFormData.email,
-          loginFormData.password
-        );
-        setToken(auth.token);
-        this.$router.push({ name: 'Home' });
+        await this.apiLogin(loginFormData.email, loginFormData.password);
+        await this.loadUserAndPushRedirect();
       } catch (e) {
         this.handleError(e);
       }
@@ -50,16 +46,21 @@ export default Vue.extend({
           signupFormData.username
         );
         if (signupValid) {
-          const auth = await this.$api.user.login(
-            signupFormData.email,
-            signupFormData.password
-          );
-          setToken(auth.token);
-          this.$router.push({ name: 'Home' });
+          await this.apiLogin(signupFormData.email, signupFormData.password);
+          await this.loadUserAndPushRedirect();
         }
       } catch (e) {
         this.handleError(e);
       }
+    },
+    async loadUserAndPushRedirect() {
+      const user = await this.$api.user.account();
+      this.$store.commit('setUser', user);
+      this.$router.push({ name: 'Home' });
+    },
+    async apiLogin(email: string, password: string) {
+      const auth = await this.$api.user.login(email, password);
+      setToken(auth.token);
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handleError(err: any) {

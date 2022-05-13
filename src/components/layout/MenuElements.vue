@@ -33,9 +33,11 @@
       </v-list-item-content>
     </v-list-item>
     <!-- Logout -->
-    <v-list-item @click="$emit('logout')" link>
+    <v-list-item @click="$emit('logout')" link v-if="user">
       <v-list-item-content>
-        <v-list-item-title class="font-weight-black">Se déconnecter</v-list-item-title>
+        <v-list-item-title class="font-weight-black">
+          Se déconnecter
+        </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
   </v-list>
@@ -53,10 +55,12 @@ export default Vue.extend({
     menuColor: {
       type: String,
     },
+    user: {
+      type: Object,
+    },
   },
   data() {
     return {};
   },
-  methods: {},
 });
 </script>
