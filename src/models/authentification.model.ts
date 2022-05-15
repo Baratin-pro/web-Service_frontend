@@ -1,4 +1,4 @@
 export class Authentification {
-    token!: string;
-    expiration!: Date;
+  token!: string;
+  expiration!: Date;
 }
