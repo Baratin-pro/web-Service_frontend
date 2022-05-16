@@ -21,9 +21,12 @@
         </v-col>
       </v-row>
       <MovieGenreList
+        :genreId="genreId"
         :moviesByGenre="moviesByGenre"
         :movieGenre="movieGenre"
-      ></MovieGenreList>
+        :addLike="addLike"
+      >
+      </MovieGenreList>
     </v-card>
   </div>
 </template>
@@ -44,6 +47,7 @@ export default Vue.extend({
       error: null as string | null,
       movieGenre: [] as MovieGenre[],
       moviesByGenre: [] as MovieByGenre[],
+      genreId: undefined as undefined | number,
       selectedGenres: [],
     };
   },
@@ -69,7 +73,16 @@ export default Vue.extend({
     },
     async loadMovieByGenre(genreId: number) {
       try {
+        this.genreId = genreId;
         this.moviesByGenre = await this.$api.movie.getByGenreId(genreId);
+      } catch (e) {
+        this.handleError(e);
+      }
+    },
+    async addLike(source: number, genreId: number) {
+      try {
+        await this.$api.source.sourceLike(source, 'movie', '1');
+        return this.loadMovieByGenre(genreId);
       } catch (e) {
         this.handleError(e);
       }

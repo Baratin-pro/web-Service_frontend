@@ -11,7 +11,10 @@
           height="250"
           :src="`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`"
           :alt="movie.title"
+          class="d.flex align-end"
         >
+          <SourceLike :source="movie" @addLike="addLike" :genreId="genreId">
+          </SourceLike>
         </v-img>
         <v-card-subtitle>
           <v-row>
@@ -38,6 +41,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { MovieGenre } from '../../models/movieGenre.model';
+import SourceLike from '../source/SourceLike.vue';
 
 export default Vue.extend({
   name: 'MovieGenreList',
@@ -48,6 +52,15 @@ export default Vue.extend({
     movieGenre: {
       type: Array,
     },
+    addLike: {
+      type: Function,
+    },
+    genreId: {
+      type: Number,
+    },
+  },
+  components: {
+    SourceLike,
   },
 
   data() {

@@ -11,7 +11,9 @@
           height="250"
           :src="`https://image.tmdb.org/t/p/w500/${tv.backdrop_path}`"
           :alt="tv.name"
+          class="d.flex align-end"
         >
+          <SourceLike :source="tv" @addLike="addLike" :genreId="genreId"></SourceLike>
         </v-img>
         <v-card-subtitle>
           <v-row>
@@ -38,6 +40,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { TvGenre } from '../../models/tvGenre.model';
+import SourceLike from '../source/SourceLike.vue';
 
 export default Vue.extend({
   name: 'TvGenreList',
@@ -48,6 +51,15 @@ export default Vue.extend({
     tvGenre: {
       type: Array,
     },
+    addLike: {
+      type: Function,
+    },
+    genreId: {
+      type: Number,
+    },
+  },
+  components: {
+    SourceLike,
   },
 
   data() {

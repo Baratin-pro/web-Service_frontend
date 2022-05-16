@@ -20,14 +20,20 @@
           </v-select>
         </v-col>
       </v-row>
-      <TvGenreList :tvByGenre="tvByGenre" :tvGenre="tvGenre"></TvGenreList>
+      <TvGenreList
+        :genreId="genreId"
+        :tvByGenre="tvByGenre"
+        :tvGenre="tvGenre"
+        :addLike="addLike"
+      >
+      </TvGenreList>
     </v-card>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import TvGenreList from '../components/tv/tvGenreList.vue';
+import TvGenreList from '../components/tv/TvGenreList.vue';
 import { TvGenre } from './../models/tvGenre.model';
 import { TvByGenre } from '../models/tvByGenre.model';
 
@@ -41,6 +47,7 @@ export default Vue.extend({
       error: null as string | null,
       tvGenre: [] as TvGenre[],
       tvByGenre: [] as TvByGenre[],
+      genreId: undefined as undefined | number,
       selectedGenres: [],
     };
   },
@@ -66,7 +73,16 @@ export default Vue.extend({
     },
     async loadTvByGenre(genreId: number) {
       try {
+        this.genreId = genreId;
         this.tvByGenre = await this.$api.tv.getByGenreId(genreId);
+      } catch (e) {
+        this.handleError(e);
+      }
+    },
+    async addLike(source: number, genreId: number) {
+      try {
+        await this.$api.source.sourceLike(source, 'tv', '1');
+        return this.loadTvByGenre(genreId);
       } catch (e) {
         this.handleError(e);
       }
